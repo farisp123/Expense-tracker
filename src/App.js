@@ -1,23 +1,28 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import ExpenseForm from './ExpenseForm';
+import ExpenseList from './ExpenseList';
+import ExpenseReport from './ExpenseReport';
 import './App.css';
 
-function App() {
+const App = () =>  {
+  const [expenses, setExpenses] = useState([]);
+  const [showReport, setShowReport] = useState(false);
+
+  const addExpense = (expense) => {
+    setExpenses([...expenses, expense]);
+  };
+
+  const generateReport = () => {
+    setShowReport(true);
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Expense Tracker</h1>
+      <ExpenseForm addExpense={addExpense} />
+      <button onClick={generateReport} style={{cursor:'pointer'}}>Generate Report</button>
+      {showReport && <ExpenseReport expenses={expenses} />}
+      <ExpenseList expenses={expenses} />
     </div>
   );
 }
